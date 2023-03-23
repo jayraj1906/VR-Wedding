@@ -2,6 +2,9 @@ from config.database import training
 from bson.objectid import ObjectId
 import json
 import boto3
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 def get_all_training():
     data=[]
@@ -17,7 +20,7 @@ def get_a_training(id):
 def create_training(data):
     data=dict(data)
     document=training.insert_one(data)
-    client = boto3.client('lambda',region_name='us-east-1')
+    client = boto3.client('lambda',region_name='us-east-1', aws_access_key_id=os.getenv("REACT_APP_AWS_KEY_ID"),aws_secret_access_key=os.getenv("REACT_APP_AWS_SECRET_KEY"))
     subject="VR-Wedding Training"
     body=f"Name: {data['name']},Email: {data['email']} ,Mobile Number: {data['mobileNumber']} ,Profession: {data['profession']},City: {data['city']}"
     inputData={

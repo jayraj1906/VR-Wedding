@@ -2,6 +2,9 @@ from config.database import demo
 from bson.objectid import ObjectId
 import json
 import boto3
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 def get_all_demo():
     data=[]
@@ -17,7 +20,7 @@ def get_a_demo(id):
 def create_demo(data):
     data=dict(data)
     demo.insert_one(data)
-    client = boto3.client('lambda',region_name='us-east-1')
+    client = boto3.client('lambda',region_name='us-east-1', aws_access_key_id=os.getenv("REACT_APP_AWS_KEY_ID"),aws_secret_access_key=os.getenv("REACT_APP_AWS_SECRET_KEY"))
     subject="VR-Wedding Demo"
     #Budget:str Country:str  Message:str
     body=f"Name: {data['name']}, Email: {data['email']}, Mobile Number: {data['mobileNumber']}, Profession: {data['profession']}, City: {data['city']}, Country: {data['country']}, Wedding status: {data['weddingStatus']}, Month: {data['month']}, Budget: {data['budget']}, Message: {data['message']}"

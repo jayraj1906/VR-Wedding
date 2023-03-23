@@ -2,6 +2,9 @@ from config.database import refferal
 from bson.objectid import ObjectId
 import json
 import boto3
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 def get_all_refferal():
     data=[]
@@ -17,7 +20,7 @@ def get_a_refferal(id):
 def create_refferal(data):
     data=dict(data)
     document=refferal.insert_one(data)
-    client = boto3.client('lambda',region_name='us-east-1')
+    client = boto3.client('lambda',region_name='us-east-1', aws_access_key_id=os.getenv("REACT_APP_AWS_KEY_ID"),aws_secret_access_key=os.getenv("REACT_APP_AWS_SECRET_KEY"))
     subject="VR-Wedding Refferal"
     body=f"Mobile Number: {data['mobileNumber']}"
     inputData={
