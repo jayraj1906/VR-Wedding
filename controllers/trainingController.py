@@ -16,7 +16,7 @@ def get_all_training():
 def get_a_training(id):
     document=training.find_one({"_id":ObjectId(id)})
     return str(document)
-#Nothing to commit
+
 def create_training(data):
     data=dict(data)
     document=training.insert_one(data)
